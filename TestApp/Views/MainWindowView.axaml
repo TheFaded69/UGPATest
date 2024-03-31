@@ -1,0 +1,93 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TestApp.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:TestApp.Views.Controls"
+        xmlns:converters="clr-namespace:TestApp.Views.Converters"
+        xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="TestApp.Views.MainWindowView"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="TestApp"
+        Focusable="True"
+        Name="Window">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <Button Command="{Binding OpenFolderCommand}"
+                    CommandParameter="{Binding ElementName=Window}"
+                    Margin="5"
+                    DockPanel.Dock="Right"
+                    Content="Открыть проводник" />
+            <TextBox Margin="5"
+                     Name="PathBox"
+                     Text="{Binding Path, UpdateSourceTrigger=LostFocus}"
+                     DockPanel.Dock="Left"
+                     KeyUp="PathBox_OnKeyUp"
+                     UseFloatingWatermark="True"
+                     Watermark="Введите путь"
+                     assists:TextFieldAssist.Label="Путь">
+            </TextBox>
+        </DockPanel>
+
+        <Grid ColumnDefinitions="0.7*, 0.3*">
+            <DataGrid ItemsSource="{Binding ExplorerItemViewModels}"
+                      Grid.Column="0"
+                      Margin="5"
+                      Name="FilesGrid"
+                      SelectedItem="{Binding SelectedExplorerItemViewModel}"
+                      DockPanel.Dock="Left"
+                      DoubleTapped="FilesGrid_OnDoubleTapped">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Описание"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Description}" />
+                    <DataGridTextColumn Header="Тип"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Extension}" />
+                    <DataGridTemplateColumn Header="Размер">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Size, StringFormat='{}{0:0.00} кБ'}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DockPanel DockPanel.Dock="Right"
+                       Grid.Column="1"
+                       LastChildFill="False"
+                       IsVisible="{Binding SelectedExplorerItemViewModel, Converter={x:Static ObjectConverters.IsNotNull}}">
+                <controls:PropertyBlock NameProp="Название"
+                                        Text="{Binding SelectedExplorerItemViewModel.Name}"
+                                        DockPanel.Dock="Top"
+                                        HorizontalAlignment="Left">
+
+                </controls:PropertyBlock>
+                <controls:PropertyBlock NameProp="Тип"
+                                        Text="{Binding SelectedExplorerItemViewModel.Extension}"
+                                        DockPanel.Dock="Top"
+                                        HorizontalAlignment="Left">
+
+                </controls:PropertyBlock>
+                <controls:PropertyBlock NameProp="Размер"
+                                        Text="{Binding SelectedExplorerItemViewModel.Size, StringFormat='{}{0:0.00} кБ'}"
+                                        DockPanel.Dock="Top"
+                                        HorizontalAlignment="Left">
+
+                </controls:PropertyBlock>
+            </DockPanel>
+        </Grid>
+
+
+    </DockPanel>
+</Window>
