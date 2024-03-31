@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -16,10 +17,20 @@ public class ExplorerService : IExplorerService
     
     public List<FileInfo>? GetFiles(string path)
     {
-        if (!_pathValidator.ValidatePath(path)) return null;
+        try
+        {
+            if (!_pathValidator.ValidatePath(path)) return null;
 
-        return new DirectoryInfo(path)
-            .GetFiles()
-            .ToList();
+            return new DirectoryInfo(path)
+                .GetFiles()
+                .ToList();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return null;
+        }
+        
+        
     }
 }

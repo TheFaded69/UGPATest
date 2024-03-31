@@ -16,6 +16,7 @@ public class MainWindowViewModel : ViewModelBase, IDisposable
     public MainWindowViewModel(IExplorerService explorerService)
     {
         _explorerService = explorerService;
+        
         OpenFolderCommand = ReactiveCommand.CreateFromTask<Window>(OpenFolderCommandHandler);
     }
     private readonly IExplorerService _explorerService;
