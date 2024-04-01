@@ -6,4 +6,6 @@ namespace TestApp.Models.ExplorerModels;
 public interface IExplorerService
 {
     List<FileInfo>? GetFiles(string path);
+
+    List<DirectoryInfo>? GetDirectories(string path);
 }

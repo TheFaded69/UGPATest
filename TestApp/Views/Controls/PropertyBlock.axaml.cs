@@ -23,4 +23,12 @@ public class PropertyBlock : TemplatedControl
         get => GetValue(TextProperty); 
         set => SetValue(TextProperty, value);
     }
+
+    public static readonly StyledProperty<int> NamePropWidthProperty =
+        AvaloniaProperty.Register<PropertyBlock, int>(nameof(NamePropWidth));
+    public int NamePropWidth
+    {
+        get => GetValue(NamePropWidthProperty); 
+        set => SetValue(NamePropWidthProperty, value);
+    }
 }

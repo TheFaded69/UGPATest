@@ -37,7 +37,7 @@
         </DockPanel>
 
         <Grid ColumnDefinitions="0.7*, 0.3*">
-            <DataGrid ItemsSource="{Binding ExplorerItemViewModels}"
+            <!--DataGrid ItemsSource="{Binding ExplorerItemViewModels}"
                       Grid.Column="0"
                       Margin="5"
                       Name="FilesGrid"
@@ -62,29 +62,60 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
-            </DataGrid>
+            </DataGrid-->
+
+            <ScrollViewer Grid.Column="0">
+                <ListBox ItemsSource="{Binding ExplorerItemViewModels}"
+                         Margin="5"
+                         Name="FilesGrid"
+                         SelectedItem="{Binding SelectedExplorerItemViewModel}"
+                         DoubleTapped="FilesGrid_OnDoubleTapped">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="5"
+                                       Text="{Binding Name}"
+                                       Foreground="{Binding ExplorerItemType, Converter={converters:ExplorerItemTypeToForegroundConverter}}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+
             <DockPanel DockPanel.Dock="Right"
                        Grid.Column="1"
                        LastChildFill="False"
                        IsVisible="{Binding SelectedExplorerItemViewModel, Converter={x:Static ObjectConverters.IsNotNull}}">
-                <controls:PropertyBlock NameProp="Название"
-                                        Text="{Binding SelectedExplorerItemViewModel.Name}"
-                                        DockPanel.Dock="Top"
-                                        HorizontalAlignment="Left">
 
-                </controls:PropertyBlock>
-                <controls:PropertyBlock NameProp="Тип"
-                                        Text="{Binding SelectedExplorerItemViewModel.Extension}"
-                                        DockPanel.Dock="Top"
-                                        HorizontalAlignment="Left">
-
-                </controls:PropertyBlock>
-                <controls:PropertyBlock NameProp="Размер"
-                                        Text="{Binding SelectedExplorerItemViewModel.Size, StringFormat='{}{0:0.00} кБ'}"
-                                        DockPanel.Dock="Top"
-                                        HorizontalAlignment="Left">
-
-                </controls:PropertyBlock>
+                <DockPanel DockPanel.Dock="Top"
+                           HorizontalAlignment="Left"
+                           IsVisible="{Binding SelectedExplorerItemViewModel.ExplorerItemType, Converter={converters:IsFileExplorerItemTypeConverter}}">
+                    <ItemsControl ItemsSource="{Binding PropertyViewModels}"
+                                  Margin="5"
+                                  Name="PropertyList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <controls:PropertyBlock NameProp="{Binding PropertyName}"
+                                                        Text="{Binding PropertyValue}"
+                                                        HorizontalAlignment="Left" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DockPanel>
+                
+                <DockPanel DockPanel.Dock="Top"
+                           HorizontalAlignment="Left"
+                           IsVisible="{Binding SelectedExplorerItemViewModel.ExplorerItemType, Converter={converters:IsFolderExplorerItemTypeConverter}}">
+                    <ScrollViewer>
+                        <ItemsControl Margin="5"
+                                      ItemsSource="{Binding SelectedExplorerItemViewModel.ExplorerItemViewModels}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="5"
+                                               Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
             </DockPanel>
         </Grid>
 

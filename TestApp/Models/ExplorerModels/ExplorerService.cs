@@ -21,9 +21,10 @@ public class ExplorerService : IExplorerService
         {
             if (!_pathValidator.ValidatePath(path)) return null;
 
-            return new DirectoryInfo(path)
-                .GetFiles()
-                .ToList();
+            var files = new DirectoryInfo(path)
+                .GetFiles();
+            
+            return files.ToList();
         }
         catch (Exception e)
         {
@@ -32,5 +33,23 @@ public class ExplorerService : IExplorerService
         }
         
         
+    }
+
+    public List<DirectoryInfo>? GetDirectories(string path)
+    {
+        try
+        {
+            if (!_pathValidator.ValidatePath(path)) return null;
+
+            var folders = new DirectoryInfo(path)
+                .GetDirectories();
+            
+            return folders.ToList();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return null;
+        }
     }
 }

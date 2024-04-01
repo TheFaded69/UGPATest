@@ -10,14 +10,16 @@
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="5,5,0,5"
-                                   Text="{TemplateBinding NameProp}" />
-                        <TextBlock Margin="0,5,0,5"
-                                   Text=":" />
-                        <TextBlock Margin="5"
-                                   Text="{TemplateBinding Text}" />
-                    </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5,5,0,5"
+                               Name="PropertyName"
+                               Text="{TemplateBinding NameProp}" />
+                    <TextBlock Margin="0,5,0,5"
+                               Text=":" />
+                    <TextBlock Margin="5"
+                               Name="PropertyValue"
+                               Text="{TemplateBinding Text}" />
+                </StackPanel>
             </ControlTemplate>
         </Setter>
     </Style>

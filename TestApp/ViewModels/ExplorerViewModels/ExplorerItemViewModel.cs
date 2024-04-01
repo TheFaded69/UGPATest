@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using System.Collections.ObjectModel;
+using ReactiveUI;
 
 namespace TestApp.ViewModels.ExplorerViewModels;
 
@@ -22,15 +23,10 @@ public class ExplorerItemViewModel : ViewModelBase
         get => _name;
         set => this.RaiseAndSetIfChanged(ref _name, value);
     }
-
-    [PropertyName("Описание")]
-    public string Description
-    {
-        get => _description;
-        set => this.RaiseAndSetIfChanged(ref _description, value);
-    }
+    
 
     [PropertyName("Размер")]
+    [Size]
     public float Size
     {
         get => _size;
@@ -44,4 +40,6 @@ public class ExplorerItemViewModel : ViewModelBase
         get => _extension;
         set => this.RaiseAndSetIfChanged(ref _extension, value);
     }
+
+    public ObservableCollection<ExplorerItemViewModel> ExplorerItemViewModels { get; set; } 
 }
