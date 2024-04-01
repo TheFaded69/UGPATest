@@ -64,7 +64,6 @@
                 </DataGrid.Columns>
             </DataGrid-->
 
-            <ScrollViewer Grid.Column="0">
                 <ListBox ItemsSource="{Binding ExplorerItemViewModels}"
                          Margin="5"
                          Name="FilesGrid"
@@ -78,7 +77,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </ScrollViewer>
 
             <DockPanel DockPanel.Dock="Right"
                        Grid.Column="1"
